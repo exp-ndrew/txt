@@ -3,7 +3,7 @@
 <% if @message.errors.any? %>
   <p>Something went wrong:</p>
   <ul>
-    <% @message.errors.full_messaeges.each do |error| %>
+    <% @message.errors.full_messages.each do |error| %>
       <li><%= error %></li>
     <% end %>
   </ul>
@@ -11,10 +11,16 @@
 
 <%= form_for @message do |f| %>
 
-  <%= f.label :to %>
-  <%= f.text_field :to %>
-  <%= f.label :from %>
-  <%= f.text_field :from %>
+  <p>Contacts:</p>
+    <%= f.fields_for :checked_boxes do |cb| %>
+      <% Contact.all.each do |s| %>
+        <%= cb.check_box(s.name) %>
+        <%= s.name %><br />
+      <% end %>
+    <% end %>
+
+
+  <%= f.hidden_field :from, :value => current_user.id %>
   <%= f.label :body %>
   <%= f.text_field :body %>
   <%= f.submit %>

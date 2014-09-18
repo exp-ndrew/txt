@@ -1,7 +1,12 @@
 class ContactsController < ApplicationController
   def index
-    @contacts = Contact.all.where(:user_id => current_user.id)
+    if current_user
+      @contacts = Contact.all.where(:user_id => current_user.id)
+    else
+      @contacts = Contact.new
+    end
   end
+
 
   def new
     @contact = Contact.new
@@ -27,11 +32,18 @@ class ContactsController < ApplicationController
 
   def update
     @contact = Contact.find(params[:id])
-    if @contact.update(contact_params)
-      flash[:notice] = "Contact updated!"
+    if params.include?(:myphone)
+      current_user.phone = @contact.phone
+      current_user.save
+      flash[:notice] = "Your phone number is set to #{@contact.phone}, #{current_user.email}!"
       redirect_to contact_path(@contact)
     else
-      render 'edit'
+      if @contact.update(contact_params)
+        flash[:notice] = "Contact updated!"
+        redirect_to contact_path(@contact)
+      else
+        render 'edit'
+      end
     end
   end
 
@@ -45,7 +57,7 @@ class ContactsController < ApplicationController
 
 private
   def contact_params
-    params.require(:contact).permit(:name, :phone, :user_id)
+    params.require(:contact).permit(:name, :phone, :user_id, :myphone)
   end
 
 end

@@ -1,7 +1,15 @@
 <h1><%= @contact.name %></h1>
 <h2><%= @contact.phone %></h2>
 
+<% if current_user.phone == @contact.phone %>
+  <h3>This is you!</h3>
+<% end %>
+
 <%= link_to "Edit", edit_contact_path(@contact) %>
 <%= link_to "Delete", contact_path(@contact),
                         :data => {:confirm => "You sure?",
                         :method => "delete"} %>
+<%= form_tag("/contacts/#{@contact.id}", method: :put) %>
+  <%= hidden_field_tag :myphone, @contact.phone %>
+  <%= submit_tag "This is me!" %>
+
