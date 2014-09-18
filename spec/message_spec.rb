@@ -11,4 +11,6 @@ describe Message, :vcr => true do
     message.save
     message.errors[:base].should eq ["The 'To' number 111111 is not a valid phone number."]
   end
+
+  it { should have_and_belong_to_many :contacts }
 end

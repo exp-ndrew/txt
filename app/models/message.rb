@@ -1,10 +1,11 @@
 class Message < ActiveRecord::Base
 
-  before_create :send_sms
 
   validates :body, presence: true
 
   has_and_belongs_to_many :contacts
+
+  before_create :send_sms
 
 private
 

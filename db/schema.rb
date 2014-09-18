@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140918183015) do
+ActiveRecord::Schema.define(version: 20140918191051) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -21,14 +21,10 @@ ActiveRecord::Schema.define(version: 20140918183015) do
     t.string "phone"
   end
 
-  create_table "contacts_messages", force: true do |t|
-    t.integer "message_id"
-    t.integer "contact_id"
-  end
-
   create_table "messages", force: true do |t|
     t.text    "body"
-    t.integer "contact_id"
+    t.integer "from"
+    t.integer "to"
   end
 
 end
