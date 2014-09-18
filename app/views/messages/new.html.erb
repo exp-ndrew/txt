@@ -12,15 +12,15 @@
 <%= form_for @message do |f| %>
 
   <p>Contacts:</p>
-    <%= f.fields_for :checked_boxes do |cb| %>
+    <%= f.fields_for :to do |cb| %>
       <% Contact.all.each do |s| %>
-        <%= cb.check_box(s.name) %>
+        <%= cb.check_box(s.phone) %>
         <%= s.name %><br />
       <% end %>
     <% end %>
 
 
-  <%= f.hidden_field :from, :value => current_user.id %>
+  <%= f.hidden_field :from, :value => current_user.phone %>
   <%= f.label :body %>
   <%= f.text_field :body %>
   <%= f.submit %>
